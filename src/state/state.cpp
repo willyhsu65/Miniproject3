@@ -13,8 +13,71 @@
  */
 int State::evaluate(){
   // [TODO] design your own evaluation function
-  
-  return 0;
+  auto self_board = this->board.board[this->player];
+  auto oppn_board = this->board.board[1 - this->player];
+  int playervalue = 0;
+  int oppnvalue = 0;
+  for (int i = 0;i < BOARD_H;i ++)
+  {
+    for (int j = 0;j < BOARD_W;j ++)
+    {
+      switch (self_board[i][j])
+      {
+        case 6:
+          playervalue += king;
+          break;
+        case 5:
+          playervalue += queen;
+          break;
+        case 4:
+          playervalue += bishop;
+          break;
+        case 3:
+          playervalue += knight;
+          break;
+        case 2:
+          playervalue += rook;
+          break;
+        case 1:
+          playervalue += pawn;
+          break;
+        case 0:
+          playervalue += empty;
+          break;
+        default:
+          break;
+      }
+      switch (oppn_board[i][j])
+      {
+        case 6:
+          oppnvalue += king;
+          break;
+        case 5:
+          oppnvalue += queen;
+          break;
+        case 4:
+          oppnvalue += bishop;
+          break;
+        case 3:
+          oppnvalue += knight;
+          break;
+        case 2:
+          oppnvalue += rook;
+          break;
+        case 1:
+          oppnvalue += pawn;
+          break;
+        case 0:
+          oppnvalue += empty;
+          break;
+        default:
+          break;
+      }
+    }
+  }
+  int statevalue = playervalue - oppnvalue;
+  std::cout << statevalue << std::endl;
+  return statevalue;
 }
 
 
