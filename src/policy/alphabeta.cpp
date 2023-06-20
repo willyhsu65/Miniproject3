@@ -5,10 +5,11 @@
 #include "../state/state.hpp"
 #include "./alphabeta.hpp"
 
-int alpha_value = INT_MIN;
-int beta_value = INT_MAX;
+
 Move Alphabeta::getmove(State *node,int depth)
 {
+    int alpha_value = INT_MIN;
+    int beta_value = INT_MAX;
     alpha_value = INT_MIN;
     beta_value = INT_MAX;
     if (node->legal_actions.empty())
