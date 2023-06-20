@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#define DEPTH 3
+#define DEPTH 4
 
 #include "../config.hpp"
 #include "../state/state.hpp"

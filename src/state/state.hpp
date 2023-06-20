@@ -44,13 +44,7 @@ enum GameState {
 class State{
   public:
     //You may want to add more property for a state
-    const int king = 20000000;
-    const int queen = 100;
-    const int rook = 50;
-    const int bishop = 40;
-    const int knight = 40;
-    const int pawn = 10;
-    const int empty = 0;
+    
     GameState game_state = UNKNOWN;
     Board board;
     int player = 0;

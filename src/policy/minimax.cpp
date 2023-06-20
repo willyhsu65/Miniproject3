@@ -1,24 +1,25 @@
 #include <cstdlib>
 #include <algorithm>
 #include <climits>
-#define MAX_DEPTH 5
 
 #include "../state/state.hpp"
 #include "./minimax.hpp"
 
+int heuristic_value = INT_MIN;
 Move Minimax::getmove(State *node,int depth)
 {
-    Move next;
-    int maxheuristic = INT_MIN;
-    if (!node->legal_actions.size())
+    if (node->legal_actions.empty())
         node->get_legal_actions();
-    for (auto child : node->legal_actions)
-    { 
-        int cur_heuristic = minimax(node->next_state(child),depth,true);
-        if (cur_heuristic > maxheuristic)
+    heuristic_value = INT_MIN;
+    auto actions = node->legal_actions;
+    Move next;
+    for (auto move : actions)
+    {
+        int heuristic = minimax(node->next_state(move),depth - 1,false);
+        if (heuristic_value <= heuristic)
         {
-            maxheuristic = cur_heuristic;
-            next = child;
+            heuristic_value = heuristic;
+            next = move;
         }
     }
     return next;
@@ -27,24 +28,32 @@ int minimax(State *node,int depth,bool maximizing_player)
 {
     if (depth == 0)
     {
-        return node->evaluate();
+        if (maximizing_player)
+            return node->evaluate()*(-1);
+        else
+            return node->evaluate();
     }
 
-    if (maximizing_player == true)
+    if (maximizing_player)
     {
         int value = INT_MIN;
         node->get_legal_actions();
-        for (auto child : node->legal_actions)
-            value = std::max(value,minimax(node->next_state(child),depth-1,false));
+        auto actions = node->legal_actions;
+        for (auto move : actions)
+        {
+            value = std::max(value,minimax(node->next_state(move),depth - 1,false));
+        }
         return value;
     }
-
-    else if (maximizing_player == false)
+    else
     {
         int value = INT_MAX;
         node->get_legal_actions();
-        for (auto child : node->legal_actions)
-            value = std::min(value,minimax(node->next_state(child),depth - 1,true));
+        auto actions = node->legal_actions;
+        for (auto move : actions)
+        {
+            value = std::min(value,minimax(node->next_state(move),depth - 1,true));
+        }
         return value;
     }
 }

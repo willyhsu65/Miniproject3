@@ -15,7 +15,7 @@
 /* By default, the pieces are '♟', '♜', '♞', '♝', '♛', '♚' from unicode*/
 // #define PIECE_STR_LEN 1
 // const char piece_table[2][7][5] = {
-//   {" ", "♟", "♜", "♞", "♝", "♛", "♚"},
+//   {" ", "♟", "♜", "♞", "♝", "♛", s"♚"},
 //   {" ", "♙", "♖", "♘", "♗", "♕", "♔"},
 // };
 #define PIECE_STR_LEN 2
