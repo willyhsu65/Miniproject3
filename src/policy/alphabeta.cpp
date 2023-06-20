@@ -10,8 +10,6 @@ Move Alphabeta::getmove(State *node,int depth)
 {
     int alpha_value = INT_MIN;
     int beta_value = INT_MAX;
-    alpha_value = INT_MIN;
-    beta_value = INT_MAX;
     if (node->legal_actions.empty())
         node->get_legal_actions();
     int heuristic_value = INT_MIN;

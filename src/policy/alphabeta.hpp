@@ -5,6 +5,7 @@
 class Alphabeta
 {
     public:
+
     static Move getmove(State* node,int depth);
 };
 

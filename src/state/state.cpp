@@ -2,9 +2,9 @@
 #include <sstream>
 #include <cstdint>
 
+
 #include "./state.hpp"
 #include "../config.hpp"
-
 
 /**
  * @brief evaluate the state
@@ -15,20 +15,69 @@ int State::evaluate(){
   // [TODO] design your own evaluation function
   auto self_board = this->board.board[this->player];
   auto oppn_board = this->board.board[1 - this->player];
-  int valuemap[7] = {0,10,20,30,40,80,100000};
+  int valuemap[7] = {0,1000,3000,3000,5000,9000,10000000};
   int oppnvalue = 0;
   int playervalue = 0;
+  Point playerking;
+  Point oppnking;
   for (int i = 0;i < BOARD_H;i ++)
   {
     for (int j = 0;j < BOARD_W;j ++)
     {
       int piece = self_board[i][j];
+      if (piece == 6)
+      {
+        playerking.first = i;
+        playerking.second = j;
+      }
       playervalue += valuemap[piece];
       piece = oppn_board[i][j];
+      if (piece == 6)
+      {
+        oppnking.first = i;
+        oppnking.second = j;
+      }
       oppnvalue += valuemap[piece];
     }
   }
-  return oppnvalue - playervalue;
+  for (int i = 0;i < BOARD_H;i ++)
+  {
+    for (int j = 0;j < BOARD_W;j ++)
+    {
+      int piece = self_board[i][j];
+      if (piece == 1 || piece == 3)
+      {
+        int distx = 0;
+        int disty = 0;
+        if (i - oppnking.first > 0)
+          distx = i-oppnking.first;
+        else
+          distx = oppnking.first - i;
+        if (j - oppnking.second > 0)
+          disty = j - oppnking.second;
+        else
+          disty = oppnking.second - j;
+        playervalue += 15 - (distx + disty);
+      }
+      piece = oppn_board[i][j];
+      if (piece == 1 || piece == 3)
+      {
+        int distx = 0;
+        int disty = 0;
+        if (i - playerking.first > 0)
+          distx = i - playerking.first;
+        else
+          distx = playerking.first - i;
+        if (j - playerking.second > 0)
+          disty = j - playerking.second;
+        else
+          disty = playerking.second - j;
+        oppnvalue += 15 - (distx + disty);
+      }
+    }
+  }
+  int state_val = oppnvalue - playervalue;
+  return state_val;
 }
 
 
